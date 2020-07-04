@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+  #######################################
+  # Application
+  #######################################
+  app:
+    build:
+      dockerfile: development.dockerfile
+      context: app
+    depends_on:
+      - db
+      - mail
+    links:
+      - db
+      - mail
+    volumes:
+      - ./app:/home/node/:cached
+      - node_modules:/home/node/node_modules/
+    environment:
+      - VIRTUAL_PORT=3000
+      - VIRTUAL_HOST=$PROJECT_NAME.docker
+      - DB_CONNECTION=postgres://$DB_USER:$DB_PASSWORD@db/$DB_NAME
+      - COOKIE_SECRET=$COOKIE_SECRET
+
+  #######################################
+  # Database
+  #######################################
+  db:
+    image: postgres
+#    ports:
+#    - 5432:5432
+    environment:
+      - POSTGRES_DB=$DB_NAME
+      - POSTGRES_USER=$DB_USER
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  #######################################
+  # Mailhog
+  #######################################
+  mail:
+    image: mailhog/mailhog:latest
+    environment:
+      - VIRTUAL_PORT=8025
+      - VIRTUAL_HOST=mail.$PROJECT_NAME.docker
+
+volumes:
+  db:
+  node_modules:
