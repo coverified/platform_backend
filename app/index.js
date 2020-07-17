@@ -14,7 +14,6 @@ const adapterConfig = {
     },
 };
 
-
 const keystone = new Keystone({
     name: PROJECT_NAME,
     cookieSecret: process.env.COOKIE_SECRET,

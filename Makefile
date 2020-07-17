@@ -80,6 +80,12 @@ init:
 keystone:
 	docker-compose exec app yarn keystone:dev $(ARGS)
 
+backup-db:
+	docker-compose exec db pg_dump --clean --no-acl --format=plain --no-owner --username=$$DB_USER $$DB_NAME > dump.sql
+
+restore-db:
+	cat dump.sql | docker-compose exec -T db psql --username=$$DB_USER $$DB_NAME
+
 
 #############################
 # INFORMATION
