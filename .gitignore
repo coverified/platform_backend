@@ -1,5 +1,6 @@
 /.env
 
+/app/dist/
 /app/node_modules/
 !/app/node_modules/.gitkeep
 /app/package-lock.json

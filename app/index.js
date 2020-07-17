@@ -17,6 +17,11 @@ const adapterConfig = {
 const keystone = new Keystone({
     name: PROJECT_NAME,
     cookieSecret: process.env.COOKIE_SECRET,
+    cookie: {
+        secure: process.env.COOKIE_SECRET !== 'secret',
+        maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
+        sameSite: false,
+    },
     adapter: new Adapter(adapterConfig),
     onConnect: process.env.CREATE_TABLES !== 'true' && initialiseData,
 });
@@ -85,4 +90,7 @@ module.exports = {
             authStrategy,
         }),
     ],
+    configureExpress: app => {
+        app.set('trust proxy', true);
+    },
 };

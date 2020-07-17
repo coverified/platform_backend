@@ -56,7 +56,7 @@ restart:
 
 rebuild:
 	make destroy
-	make upgrade
+	make init
 
 
 #############################

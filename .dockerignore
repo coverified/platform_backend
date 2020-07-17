@@ -1,0 +1,6 @@
+.git/
+dist/
+.env
+.nvmrc
+README.md
+CHANGELOG.md
