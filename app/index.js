@@ -1,6 +1,6 @@
 const {Keystone} = require('@keystonejs/keystone');
 const {PasswordAuthStrategy} = require('@keystonejs/auth-password');
-const {Text, Checkbox, Password} = require('@keystonejs/fields');
+const {Text, Checkbox, Password, Relationship, Float, Location, Url, CalendarDay, DateTime} = require('@keystonejs/fields');
 const {GraphQLApp} = require('@keystonejs/app-graphql');
 const {AdminUIApp} = require('@keystonejs/app-admin-ui');
 const initialiseData = require('./initial-data');
@@ -47,6 +47,114 @@ const userIsAdminOrOwner = auth => {
 
 const access = {userIsAdmin, userOwnsItem, userIsAdminOrOwner};
 
+keystone.createList('Organization', {
+    fields: {
+        name: {
+            type: Text,
+            isUnique: true,
+        },
+    },
+});
+
+keystone.createList('Tag', {
+    fields: {
+        name: {
+            type: Text,
+            isUnique: true,
+        },
+    },
+});
+
+keystone.createList('Language', {
+    fields: {
+        name: {
+            type: Text,
+            isUnique: true,
+        },
+    },
+});
+
+keystone.createList('GeoLocation', {
+    fields: {
+        name: {
+            type: Text,
+            isUnique: true,
+        },
+        location: {
+            type: Location,
+            googleMapsKey: 'AIzaSyCs_yZuXjG54hm3vsl66MWCLa56Cm05_hA',
+        },
+        radius: {
+            type: Float,
+        },
+    },
+});
+
+keystone.createList('Source', {
+    fields: {
+        name: {
+            type: Text,
+        },
+        url: {
+            type: Url,
+        },
+        location: {
+            type: Relationship,
+            ref: 'GeoLocation',
+            many: false,
+        },
+    },
+});
+
+keystone.createList('Widget', {
+    fields: {
+        name: {
+            type: Text,
+        },
+        organization: {
+            type: Relationship,
+            ref: 'Organization',
+            many: false,
+        },
+    },
+});
+
+keystone.createList('Entry', {
+    fields: {
+        publishDate: {
+            type: CalendarDay,
+        },
+        title: {
+            type: Text,
+        },
+        image: {
+            type: Url,
+        },
+        content: {
+            type: Text,
+        },
+        url: {
+            type: Url,
+        },
+        tags: {
+            type: Relationship,
+            ref: 'Tag',
+            many: true,
+        },
+        language: {
+            type: Relationship,
+            ref: 'Language',
+            many: false,
+        },
+        createdAt: {
+            type: DateTime,
+        },
+        updatedAt: {
+            type: DateTime,
+        },
+    },
+});
+
 keystone.createList('User', {
     fields: {
         name: {type: Text},
@@ -65,6 +173,11 @@ keystone.createList('User', {
         password: {
             type: Password,
         },
+        organization: {
+            type: Relationship,
+            ref: 'Organization',
+            many: false,
+        },
     },
     // List-level access controls
     access: {
@@ -75,6 +188,7 @@ keystone.createList('User', {
         auth: true,
     },
 });
+
 
 const authStrategy = keystone.createAuthStrategy({
     type: PasswordAuthStrategy,
