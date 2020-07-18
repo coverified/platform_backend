@@ -5,7 +5,8 @@ services:
   #######################################
   app:
     build:
-#      dockerfile: ../Dockerfile
+#      dockerfile: Dockerfile
+#      context: .
       dockerfile: development.dockerfile
       context: app
     depends_on:
