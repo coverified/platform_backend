@@ -47,11 +47,14 @@ const userIsAdminOrOwner = auth => {
 
 const access = {userIsAdmin, userOwnsItem, userIsAdminOrOwner};
 
+// TODO: mark required fields as required
+
 keystone.createList('Organization', {
     fields: {
         name: {
             type: Text,
             isUnique: true,
+            isRequired: true,
         },
     },
 });
@@ -61,6 +64,7 @@ keystone.createList('Tag', {
         name: {
             type: Text,
             isUnique: true,
+            isRequired: true,
         },
     },
 });
@@ -70,6 +74,7 @@ keystone.createList('Language', {
         name: {
             type: Text,
             isUnique: true,
+            isRequired: true,
         },
     },
 });
@@ -79,13 +84,16 @@ keystone.createList('GeoLocation', {
         name: {
             type: Text,
             isUnique: true,
+            isRequired: true,
         },
         location: {
             type: Location,
             googleMapsKey: 'AIzaSyCs_yZuXjG54hm3vsl66MWCLa56Cm05_hA',
+            isRequired: true,
         },
         radius: {
             type: Float,
+            isRequired: true,
         },
     },
 });
@@ -94,14 +102,17 @@ keystone.createList('Source', {
     fields: {
         name: {
             type: Text,
+            isRequired: true,
         },
         url: {
             type: Url,
+            isRequired: true,
         },
         location: {
             type: Relationship,
             ref: 'GeoLocation',
             many: false,
+            isRequired: true,
         },
     },
 });
@@ -110,11 +121,25 @@ keystone.createList('Widget', {
     fields: {
         name: {
             type: Text,
+            isRequired: true,
         },
         organization: {
             type: Relationship,
             ref: 'Organization',
             many: false,
+            isRequired: true,
+        },
+        language: {
+            type: Relationship,
+            ref: 'Language',
+            many: false,
+            isRequired: true,
+        },
+        sources: {
+            type: Relationship,
+            ref: 'Source',
+            many: true,
+            isRequired: true,
         },
     },
 });
@@ -123,18 +148,22 @@ keystone.createList('Entry', {
     fields: {
         publishDate: {
             type: CalendarDay,
+            isRequired: true,
         },
         title: {
             type: Text,
+            isRequired: true,
         },
         image: {
             type: Url,
         },
         content: {
             type: Text,
+            isRequired: true,
         },
         url: {
             type: Url,
+            isRequired: true,
         },
         tags: {
             type: Relationship,
@@ -145,25 +174,41 @@ keystone.createList('Entry', {
             type: Relationship,
             ref: 'Language',
             many: false,
+            isRequired: true,
+        },
+        source: {
+            type: Relationship,
+            ref: 'Source',
+            many: false,
+            isRequired: true,
         },
         createdAt: {
             type: DateTime,
+            isRequired: true,
+            defaultValue: new Date(),
         },
         updatedAt: {
             type: DateTime,
+            isRequired: true,
+            defaultValue: new Date(),
         },
     },
 });
 
 keystone.createList('User', {
     fields: {
-        name: {type: Text},
+        name: {
+            type: Text,
+            isRequired: true,
+        },
         email: {
             type: Text,
             isUnique: true,
+            isRequired: true,
         },
         isAdmin: {
             type: Checkbox,
+            defaultValue: false,
             // Field-level access controls
             // Here, we set more restrictive field access so a non-admin cannot make themselves admin.
             access: {
@@ -172,11 +217,13 @@ keystone.createList('User', {
         },
         password: {
             type: Password,
+            isRequired: true,
         },
         organization: {
             type: Relationship,
             ref: 'Organization',
             many: false,
+            isRequired: true,
         },
     },
     // List-level access controls
