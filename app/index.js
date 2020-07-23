@@ -3,6 +3,7 @@ const {PasswordAuthStrategy} = require('@keystonejs/auth-password');
 const {Text, Checkbox, Password, Relationship, Float, Location, Url, CalendarDay, DateTime} = require('@keystonejs/fields');
 const {GraphQLApp} = require('@keystonejs/app-graphql');
 const {AdminUIApp} = require('@keystonejs/app-admin-ui');
+const {atTracking} = require('@keystonejs/list-plugins');
 const initialiseData = require('./initial-data');
 const {KnexAdapter: Adapter} = require('@keystonejs/adapter-knex');
 
@@ -57,6 +58,9 @@ keystone.createList('Organization', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('Tag', {
@@ -67,6 +71,9 @@ keystone.createList('Tag', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('Language', {
@@ -77,6 +84,9 @@ keystone.createList('Language', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('GeoLocation', {
@@ -96,6 +106,9 @@ keystone.createList('GeoLocation', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('Source', {
@@ -115,6 +128,9 @@ keystone.createList('Source', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('Widget', {
@@ -142,6 +158,9 @@ keystone.createList('Widget', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('Entry', {
@@ -182,17 +201,10 @@ keystone.createList('Entry', {
             many: false,
             isRequired: true,
         },
-        createdAt: {
-            type: DateTime,
-            isRequired: true,
-            defaultValue: new Date(),
-        },
-        updatedAt: {
-            type: DateTime,
-            isRequired: true,
-            defaultValue: new Date(),
-        },
     },
+    plugins: [
+        atTracking(),
+    ],
 });
 
 keystone.createList('User', {
@@ -226,6 +238,9 @@ keystone.createList('User', {
             isRequired: true,
         },
     },
+    plugins: [
+        atTracking(),
+    ],
     // List-level access controls
     access: {
         read: access.userIsAdminOrOwner,

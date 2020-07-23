@@ -26,6 +26,7 @@
     "@keystonejs/auth-password": "^5.1.10",
     "@keystonejs/fields": "^13.0.2",
     "@keystonejs/keystone": "^11.2.0",
+    "@keystonejs/list-plugins": "^7.0.3",
     "cross-env": "^7.0.2"
   }
 }
