@@ -1,6 +1,6 @@
 const {Keystone} = require('@keystonejs/keystone');
 const {PasswordAuthStrategy} = require('@keystonejs/auth-password');
-const {Text, Checkbox, Password, Relationship, Float, Location, Url, CalendarDay, DateTime} = require('@keystonejs/fields');
+const {Text, Checkbox, Password, Relationship, Float, Location, Url, CalendarDay, Uuid} = require('@keystonejs/fields');
 const {GraphQLApp} = require('@keystonejs/app-graphql');
 const {AdminUIApp} = require('@keystonejs/app-admin-ui');
 const {atTracking} = require('@keystonejs/list-plugins');
@@ -48,10 +48,15 @@ const userIsAdminOrOwner = auth => {
 
 const access = {userIsAdmin, userOwnsItem, userIsAdminOrOwner};
 
-// TODO: mark required fields as required
-
 keystone.createList('Organization', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isUnique: true,
@@ -65,6 +70,13 @@ keystone.createList('Organization', {
 
 keystone.createList('Tag', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isUnique: true,
@@ -78,6 +90,13 @@ keystone.createList('Tag', {
 
 keystone.createList('Language', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isUnique: true,
@@ -91,6 +110,13 @@ keystone.createList('Language', {
 
 keystone.createList('GeoLocation', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isUnique: true,
@@ -113,6 +139,13 @@ keystone.createList('GeoLocation', {
 
 keystone.createList('Source', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isRequired: true,
@@ -135,6 +168,13 @@ keystone.createList('Source', {
 
 keystone.createList('Widget', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isRequired: true,
@@ -165,6 +205,13 @@ keystone.createList('Widget', {
 
 keystone.createList('Entry', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         publishDate: {
             type: CalendarDay,
             isRequired: true,
@@ -209,6 +256,13 @@ keystone.createList('Entry', {
 
 keystone.createList('User', {
     fields: {
+        id: {
+            type: Uuid,
+            isUnique: true,
+            knexOptions: {
+                defaultTo: knex => knex.raw('gen_random_uuid()'),
+            },
+        },
         name: {
             type: Text,
             isRequired: true,

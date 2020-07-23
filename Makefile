@@ -73,18 +73,28 @@ init:
 	cp .env.example .env
 	make up
 	sleep 10
-	docker-compose exec app yarn create-tables
+	make init-db
 	make restart
 	make logs app
 
 keystone:
 	docker-compose exec app yarn keystone:dev $(ARGS)
 
+init-db:
+	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "CREATE EXTENSION pgcrypto;"
+	docker-compose exec app yarn create-tables
+
 backup-db:
 	docker-compose exec db pg_dump --clean --no-acl --format=plain --no-owner --username=$$DB_USER $$DB_NAME > dump.sql
 
 restore-db:
 	cat dump.sql | docker-compose exec -T db psql --username=$$DB_USER $$DB_NAME
+
+clear-db:
+	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "DROP SCHEMA public CASCADE;"
+	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "CREATE SCHEMA public;"
+
+rebuild-db: up clear-db init-db restart
 
 
 #############################
