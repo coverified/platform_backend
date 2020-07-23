@@ -1,6 +1,3 @@
-const crypto = require('crypto');
-const randomString = () => crypto.randomBytes(6).hexSlice();
-
 module.exports = async keystone => {
   // Count existing users
   const {
@@ -16,7 +13,7 @@ module.exports = async keystone => {
   );
 
   if (count === 0) {
-    const password = randomString();
+    const password = 'test1234';
     const email = 'admin@example.com';
 
     await keystone.executeQuery(
