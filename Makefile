@@ -81,7 +81,7 @@ keystone:
 	docker-compose exec app yarn keystone:dev $(ARGS)
 
 init-db:
-	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "CREATE EXTENSION pgcrypto;"
+	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
 	docker-compose exec app yarn create-tables
 
 backup-db:
