@@ -82,6 +82,12 @@ keystone.createList('Tag', {
             isUnique: true,
             isRequired: true,
         },
+        language: {
+            type: Relationship,
+            ref: 'Language',
+            many: false,
+            isRequired: true,
+        },
     },
     plugins: [
         atTracking(),
