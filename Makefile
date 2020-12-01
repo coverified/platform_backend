@@ -70,7 +70,7 @@ run-ssh:
 	docker-compose run $(ARGS) sh
 
 init:
-	cp .env.example .env
+	[[ -f .env ]] || cp .env.example .env
 	make up
 	sleep 10
 	make init-db

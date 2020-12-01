@@ -1,5 +1,5 @@
 # https://docs.docker.com/samples/library/node/
-ARG NODE_VERSION=12
+ARG NODE_VERSION=14
 # https://github.com/Yelp/dumb-init/releases
 ARG DUMB_INIT_VERSION=1.2.2
 

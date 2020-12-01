@@ -1,19 +1,48 @@
 const {Keystone} = require('@keystonejs/keystone');
 const {PasswordAuthStrategy} = require('@keystonejs/auth-password');
-const {Text, Checkbox, Password, Relationship, Float, Location, Url, CalendarDay, Uuid} = require('@keystonejs/fields');
+const {
+    Text,
+    Integer,
+    Checkbox,
+    Password,
+    Relationship,
+    Float,
+    Url,
+    CalendarDay,
+    Uuid,
+} = require('@keystonejs/fields');
+const {LocationGoogle} = require('@keystonejs/fields-location-google');
+const {CloudinaryAdapter} = require('@keystonejs/file-adapters');
+const {CloudinaryImage} = require('@keystonejs/fields-cloudinary-image');
 const {GraphQLApp} = require('@keystonejs/app-graphql');
 const {AdminUIApp} = require('@keystonejs/app-admin-ui');
 const {atTracking} = require('@keystonejs/list-plugins');
-const initialiseData = require('./initial-data');
 const {KnexAdapter: Adapter} = require('@keystonejs/adapter-knex');
+const initialiseData = require('./initial-data');
 
 const PROJECT_NAME = 'CoVerified/Backend';
+
+const SECRETS = {
+    cloudinary: {
+        cloudName: process.env.CLOUDINARY_CLOUD_NAME || 'secret',
+        apiKey: process.env.CLOUDINARY_KEY || 'secret',
+        apiSecret: process.env.CLOUDINARY_SECRET || 'secret',
+    },
+    googleMaps: {
+        apiKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
+    },
+};
 
 const adapterConfig = {
     knexOptions: {
         connection: process.env.DB_CONNECTION
     },
 };
+
+const cloudinaryFileAdapter = new CloudinaryAdapter({
+    ...SECRETS.cloudinary,
+    folder: 'coverified_platform_backend',
+});
 
 const keystone = new Keystone({
     name: PROJECT_NAME,
@@ -88,6 +117,17 @@ keystone.createList('Tag', {
             many: false,
             isRequired: true,
         },
+        description: {
+            type: Text,
+            isRequired: false,
+        },
+        relevance: {
+            type: Integer,
+        },
+        image: {
+            type: CloudinaryImage,
+            adapter: cloudinaryFileAdapter,
+        },
     },
     plugins: [
         atTracking(),
@@ -129,8 +169,8 @@ keystone.createList('GeoLocation', {
             isRequired: true,
         },
         location: {
-            type: Location,
-            googleMapsKey: 'AIzaSyCs_yZuXjG54hm3vsl66MWCLa56Cm05_hA',
+            type: LocationGoogle,
+            googleMapsKey: SECRETS.googleMaps.apiKey,
             isRequired: true,
         },
         radius: {
@@ -165,6 +205,10 @@ keystone.createList('Source', {
             ref: 'GeoLocation',
             many: false,
             isRequired: true,
+        },
+        description: {
+            type: Text,
+            isRequired: false,
         },
     },
     plugins: [
@@ -227,7 +271,8 @@ keystone.createList('Entry', {
             isRequired: true,
         },
         image: {
-            type: Url,
+            type: CloudinaryImage,
+            adapter: cloudinaryFileAdapter,
         },
         content: {
             type: Text,

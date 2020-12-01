@@ -17,20 +17,22 @@ services:
       - mail
     volumes:
       - ./app:/home/node/:cached
-      - node_modules:/home/node/node_modules/
+#      - node_modules:/home/node/node_modules/
     environment:
       - VIRTUAL_PORT=3000
       - VIRTUAL_HOST=$PROJECT_NAME.docker
       - DB_CONNECTION=postgres://$DB_USER:$DB_PASSWORD@db/$DB_NAME
-      - COOKIE_SECRET=$COOKIE_SECRET
+    env_file:
+      - .env
+    command: ["yarn", "keystone:dev"]
 
   #######################################
   # Database
   #######################################
   db:
-    image: postgres
-#    ports:
-#    - 5432:5432
+    image: postgres:12
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_DB=$DB_NAME
       - POSTGRES_USER=$DB_USER
