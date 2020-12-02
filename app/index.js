@@ -167,7 +167,7 @@ keystone.createList('GeoLocation', {
         },
         location: {
             type: LocationGoogle,
-            googleMapsKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
+            googleMapsKey: process.env.GOOGLE_MAPS_API_KEY,
             isRequired: true,
         },
         radius: {

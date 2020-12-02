@@ -6,6 +6,7 @@ ARG DUMB_INIT_VERSION=1.2.2
 # Build container
 FROM node:${NODE_VERSION}-alpine
 ARG DUMB_INIT_VERSION
+ENV GOOGLE_MAPS_API_KEY=secret
 
 WORKDIR /home/node
 
