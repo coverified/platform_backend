@@ -28,7 +28,12 @@ const SECRETS = {
         apiKey: process.env.CLOUDINARY_KEY || 'secret',
         apiSecret: process.env.CLOUDINARY_SECRET || 'secret',
     },
+    googleMapsKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
 };
+
+console.log(`\n\n[ BEGIN: Secrets config ]\n\n`);
+console.log(SECRETS);
+console.log(`\n\n[ END: Secrets config ]\n\n`);
 
 const adapterConfig = {
     knexOptions: {
@@ -167,7 +172,7 @@ keystone.createList('GeoLocation', {
         },
         location: {
             type: LocationGoogle,
-            googleMapsKey: process.env.GOOGLE_MAPS_API_KEY,
+            googleMapsKey: SECRETS.googleMapsKey,
             isRequired: true,
         },
         radius: {
