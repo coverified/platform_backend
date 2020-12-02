@@ -28,9 +28,6 @@ const SECRETS = {
         apiKey: process.env.CLOUDINARY_KEY || 'secret',
         apiSecret: process.env.CLOUDINARY_SECRET || 'secret',
     },
-    googleMaps: {
-        apiKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
-    },
 };
 
 const adapterConfig = {
@@ -170,7 +167,7 @@ keystone.createList('GeoLocation', {
         },
         location: {
             type: LocationGoogle,
-            googleMapsKey: SECRETS.googleMaps.apiKey,
+            googleMapsKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
             isRequired: true,
         },
         radius: {

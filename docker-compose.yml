@@ -25,6 +25,8 @@ services:
     env_file:
       - .env
     command: ["yarn", "keystone:dev"]
+    expose:
+      - 3000
 
   #######################################
   # Database
