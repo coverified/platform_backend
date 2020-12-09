@@ -29,6 +29,7 @@ const SECRETS = {
         apiSecret: process.env.CLOUDINARY_SECRET || 'secret',
     },
     googleMapsKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
+    cookieSecret: process.env.COOKIE_SECRET || 'secret',
 };
 
 console.log(`\n\n[ BEGIN: Secrets config ]\n\n`);
@@ -48,9 +49,9 @@ const cloudinaryFileAdapter = new CloudinaryAdapter({
 
 const keystone = new Keystone({
     name: PROJECT_NAME,
-    cookieSecret: process.env.COOKIE_SECRET,
+    cookieSecret: SECRETS.cookieSecret,
     cookie: {
-        secure: process.env.COOKIE_SECRET !== 'secret',
+        secure: SECRETS.cookieSecret !== 'secret',
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
         sameSite: false,
     },

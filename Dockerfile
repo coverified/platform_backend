@@ -14,7 +14,7 @@ ADD app /home/node
 RUN wget -O dumb-init -q https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 \
     && chmod +x dumb-init \
     && yarn --frozen-lockfile \
-    && yarn build:container \
+    && yarn build \
     && yarn cache clean \
     && ls -lah
 
