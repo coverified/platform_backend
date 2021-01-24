@@ -1,7 +1,7 @@
 # https://docs.docker.com/samples/library/node/
 ARG NODE_VERSION=12
 # https://github.com/Yelp/dumb-init/releases
-ARG DUMB_INIT_VERSION=1.2.5
+ARG DUMB_INIT_VERSION=1.2.4
 
 # Build container
 FROM node:${NODE_VERSION}-alpine
