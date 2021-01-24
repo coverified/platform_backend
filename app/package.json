@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "@coverified/platform_backend",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -7,21 +8,25 @@
     "dev": "cross-env NODE_ENV=development DISABLE_LOGGING=true keystone dev",
     "keystone:dev": "cross-env NODE_ENV=development keystone",
     "keystone:prod": "cross-env NODE_ENV=production keystone",
+    "keystone:upgrade": "manypkg upgrade @keystonejs",
     "build": "cross-env NODE_ENV=production keystone build",
     "start": "cross-env NODE_ENV=production keystone start",
     "create-tables": "cross-env CREATE_TABLES=true keystone create-tables"
   },
   "dependencies": {
-    "@keystonejs/adapter-knex": "^12.0.2",
-    "@keystonejs/app-admin-ui": "^7.3.11",
-    "@keystonejs/app-graphql": "^6.1.3",
-    "@keystonejs/auth-password": "^5.1.17",
-    "@keystonejs/fields": "^20.1.3",
-    "@keystonejs/fields-cloudinary-image": "^2.1.0",
-    "@keystonejs/fields-location-google": "^3.1.0",
+    "@keystonejs/adapter-knex": "^12.0.4",
+    "@keystonejs/app-admin-ui": "^7.3.13",
+    "@keystonejs/app-graphql": "^6.2.1",
+    "@keystonejs/auth-password": "^6.0.0",
+    "@keystonejs/fields": "^21.0.1",
+    "@keystonejs/fields-cloudinary-image": "^2.1.1",
+    "@keystonejs/fields-location-google": "^3.2.0",
     "@keystonejs/file-adapters": "^7.0.8",
-    "@keystonejs/keystone": "^17.1.2",
-    "@keystonejs/list-plugins": "^7.1.4",
+    "@keystonejs/keystone": "^18.1.0",
+    "@keystonejs/list-plugins": "^7.1.5",
     "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "@manypkg/cli": "^0.17.0"
   }
 }
