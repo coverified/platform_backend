@@ -41,6 +41,7 @@ stop:
 
 destroy:
 	make stop
+	sleep 10
 	bash ./.utils/message.sh info "Deleting all containers..."
 	docker-compose down --rmi all --volumes --remove-orphans
 
@@ -71,11 +72,15 @@ run-ssh:
 
 init:
 	[[ -f .env ]] || cp .env.example .env
+	make run-yarn
 	make up
 	sleep 10
 	make init-db
 	make restart
 	make logs app
+
+run-yarn:
+	docker-compose run app yarn $(ARGS)
 
 keystone:
 	docker-compose exec app yarn keystone:dev $(ARGS)

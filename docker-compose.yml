@@ -17,7 +17,7 @@ services:
       - mail
     volumes:
       - ./app:/home/node/:cached
-#      - node_modules:/home/node/node_modules/
+      - node_modules:/home/node/node_modules/
     environment:
       - VIRTUAL_PORT=3000
       - VIRTUAL_HOST=$PROJECT_NAME.docker
