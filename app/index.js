@@ -47,10 +47,11 @@ const cloudinaryFileAdapter = new CloudinaryAdapter({
     folder: 'coverified_platform_backend',
 });
 
+process.env['PORT'] = '3000';
+
 const keystone = new Keystone({
     name: PROJECT_NAME,
     cookieSecret: SECRETS.cookieSecret,
-    port: 3000,
     cookie: {
         secure: SECRETS.cookieSecret !== 'secret',
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
