@@ -33,6 +33,7 @@ up:
 	bash ./.utils/message.sh info "Starting your project..."
 	make check-proxy
 	docker-compose up -d
+	make prepare-db
 	make urls
 
 stop:
@@ -76,6 +77,7 @@ init:
 	make up
 	sleep 10
 	make init-db
+	sleep 1
 	make restart
 	make logs app
 
@@ -85,8 +87,10 @@ run-yarn:
 keystone:
 	docker-compose exec app yarn keystone:dev $(ARGS)
 
-init-db:
+prepare-db:
 	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+
+init-db: prepare-db
 	docker-compose exec app yarn create-tables
 
 backup-db:
