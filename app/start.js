@@ -2,7 +2,7 @@ const {spawn, spawnSync, exec} = require('child_process');
 const fetch = require('node-fetch');
 const http = require('http');
 
-const keytoneProcess = spawn('yarn', ['keystone:dev']);
+const keytoneProcess = spawn('yarn', ['start']);
 keytoneProcess.stdout.setEncoding('utf8');
 keytoneProcess.stderr.setEncoding('utf8');
 keytoneProcess.stdout.on('data', console.log);

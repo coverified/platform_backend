@@ -22,4 +22,4 @@ RUN wget -O dumb-init -q https://github.com/Yelp/dumb-init/releases/download/v${
 
 EXPOSE 80
 
-CMD ["./dumb-init", "yarn", "start"]
+CMD ["./dumb-init", "yarn", "start:safe"]
