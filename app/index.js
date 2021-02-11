@@ -50,6 +50,7 @@ const cloudinaryFileAdapter = new CloudinaryAdapter({
 const keystone = new Keystone({
     name: PROJECT_NAME,
     cookieSecret: SECRETS.cookieSecret,
+    port: 3000,
     cookie: {
         secure: SECRETS.cookieSecret !== 'secret',
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
