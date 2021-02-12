@@ -5,7 +5,7 @@ module.exports = async keystone => {
     const context = keystone.createContext({skipAccessControl: true});
 
     // Setup postgres extensions
-    await keystone.adapters[keystone.defaultAdapter].knex.raw('CREATE EXTENSION IF NOT EXISTS pgcrypto').then(() => {
+    await keystone.adapter.knex.raw('CREATE EXTENSION IF NOT EXISTS pgcrypto').then(() => {
         console.log('Postgres extension pgcrypto installed');
     });
 
