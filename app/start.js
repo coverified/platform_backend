@@ -1,13 +1,13 @@
-const {spawn, spawnSync} = require('child_process');
+const {spawn} = require('child_process');
 const fetch = require('node-fetch');
 
+let ready = false;
 const keytoneProcess = spawn('yarn', ['start']);
+
 keytoneProcess.stdout.setEncoding('utf8');
 keytoneProcess.stderr.setEncoding('utf8');
 keytoneProcess.stdout.on('data', console.log);
 keytoneProcess.stderr.on('data', console.error);
-const sleep = spawnSync('sleep', [1.5]);
-let ready = false;
 
 function onReady() {
     if (ready) {
@@ -29,22 +29,33 @@ function checkAndSetStatus() {
 
     fetch('http://localhost:3000/', {headers: {Accept: 'application/json'}})
         .then(result => {
-            return result.json();
+            // console.info(`[KeystoneJS::Startup] result text: `, result.text());
+            return result;
         })
         .catch(error => {
             // We can get back an error "Cannot parse JSON" when a HTML
             // response is returned, so we assume the server is ready
-            onReady();
-        })
-        .then(({loading, status} = {}) => {
-            if (!loading) {
+            if (error.type !== 'system') {
+                console.info(`[KeystoneJS::Startup] error: `, error.type, error.code, error.message);
                 onReady();
-                return;
             }
-            if (cancelled) {
-                return;
-            }
-            console.info(`[KeystoneJS::Startup] ${status}`);
+        })
+        .then(result => {
+            // console.info(`[KeystoneJS::Startup] result: `, result);
+            result && result.json()
+                .then(({loading, status} = {}) => {
+                    console.info(`[KeystoneJS::Startup] status: ${status}`);
+                    if (!loading) {
+                        onReady();
+                    }
+                })
+                .catch(error => {
+                    if (error.type === 'invalid-json') {
+                        onReady();
+                    } else {
+                        console.info(`[KeystoneJS::Startup] error: `, error);
+                    }
+                });
         });
     return () => {
         cancelled = true;
