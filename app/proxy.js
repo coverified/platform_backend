@@ -1,5 +1,7 @@
 const http = require('http');
 
+console.log('[KeystoneJS::Startup] proxy createServer...');
+
 http.createServer((req, res) => {
     const port = 3000;
     const _req = http.request(

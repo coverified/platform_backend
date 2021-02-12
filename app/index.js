@@ -47,8 +47,6 @@ const cloudinaryFileAdapter = new CloudinaryAdapter({
     folder: 'coverified_platform_backend',
 });
 
-process.env['PORT'] = '3000';
-
 const keystone = new Keystone({
     name: PROJECT_NAME,
     cookieSecret: SECRETS.cookieSecret,

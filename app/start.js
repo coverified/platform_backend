@@ -1,6 +1,5 @@
-const {spawn, spawnSync, exec} = require('child_process');
+const {spawn, spawnSync} = require('child_process');
 const fetch = require('node-fetch');
-const http = require('http');
 
 const keytoneProcess = spawn('yarn', ['start']);
 keytoneProcess.stdout.setEncoding('utf8');
@@ -17,17 +16,12 @@ function onReady() {
     ready = true;
     console.info(`[KeystoneJS::Startup] onReady`);
 
-    exec('node proxy.js &', (error, stdout, stderr) => {
-        if (error) {
-            console.error(error);
-            return;
-        }
-        if (stderr) {
-            console.error(stderr);
-            return;
-        }
-        console.log(stdout);
-    });
+    const proxyProcess = spawn('node', ['proxy.js', '&']);
+
+    proxyProcess.stdout.setEncoding('utf8');
+    proxyProcess.stderr.setEncoding('utf8');
+    proxyProcess.stdout.on('data', console.log);
+    proxyProcess.stderr.on('data', console.error);
 }
 
 function checkAndSetStatus() {

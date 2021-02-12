@@ -11,7 +11,7 @@
     "keystone:upgrade": "manypkg upgrade @keystonejs",
     "build": "cross-env NODE_ENV=production keystone build",
     "start": "cross-env NODE_ENV=production keystone start",
-    "start:safe": "node start.js",
+    "start:safe": "cross-env PORT=3000 node start.js",
     "create-tables": "cross-env CREATE_TABLES=true keystone create-tables"
   },
   "dependencies": {

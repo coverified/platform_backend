@@ -20,6 +20,6 @@ RUN wget -O dumb-init -q https://github.com/Yelp/dumb-init/releases/download/v${
     && yarn cache clean \
     && ls -lah
 
-EXPOSE 80
+EXPOSE 3080
 
 CMD ["./dumb-init", "yarn", "start:safe"]
