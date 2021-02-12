@@ -17,9 +17,8 @@ RUN wget -O dumb-init -q https://github.com/Yelp/dumb-init/releases/download/v${
     && npm i -g node-fetch \
     && yarn --frozen-lockfile \
     && yarn build \
-    && yarn cache clean \
-    && ls -lah
+    && yarn cache clean
 
-EXPOSE 3080
+EXPOSE 80
 
 CMD ["./dumb-init", "yarn", "start:safe"]
