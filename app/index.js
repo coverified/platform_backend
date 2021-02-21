@@ -9,6 +9,7 @@ const {
     Float,
     Url,
     CalendarDay,
+    Select,
     Uuid,
 } = require('@keystonejs/fields');
 const {LocationGoogle} = require('@keystonejs/fields-location-google');
@@ -79,6 +80,15 @@ const userIsAdminOrOwner = auth => {
 };
 
 const access = {userIsAdmin, userOwnsItem, userIsAdminOrOwner};
+
+keystone.createList('Url', {
+    fields: {
+        url: {
+            type: Url,
+            isRequired: true,
+        },
+    },
+});
 
 keystone.createList('Organization', {
     fields: {
@@ -300,6 +310,21 @@ keystone.createList('Entry', {
             type: Relationship,
             ref: 'Source',
             many: false,
+            isRequired: true,
+        },
+        hasBeenTagged: {
+            type: Checkbox,
+            defaultValue: false,
+        },
+        type: {
+            type: Select,
+            options: [
+                'url',
+                'image',
+                'video',
+                'audio',
+                'document',
+            ],
             isRequired: true,
         },
     },
