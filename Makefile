@@ -105,6 +105,8 @@ clear-db:
 
 rebuild-db: up clear-db init-db restart
 
+export-schema: up
+	docker-compose run schema-exporter python3 -m sgqlc.introspection --exclude-deprecated --exclude-description http://app/admin/api /app/schema.json
 
 #############################
 # INFORMATION

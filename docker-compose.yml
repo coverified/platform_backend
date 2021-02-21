@@ -53,6 +53,20 @@ services:
       - VIRTUAL_PORT=8025
       - VIRTUAL_HOST=mail.$PROJECT_NAME.docker
 
+  #######################################
+  # GraphQL Schema exporter
+  #######################################
+  schema-exporter:
+    build:
+      dockerfile: .docker/schema-exporter/Dockerfile
+      context: .
+    volumes:
+      - ./app:/app/
+    depends_on:
+      - app
+    links:
+      - app
+
 volumes:
   db:
   node_modules:
