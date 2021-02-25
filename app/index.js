@@ -209,6 +209,10 @@ keystone.createList('Source', {
             type: Text,
             isRequired: true,
         },
+        acronym: {
+            type: Text,
+            isRequired: true,
+        },
         url: {
             type: Url,
             isRequired: true,
@@ -283,6 +287,9 @@ keystone.createList('Entry', {
             type: Text,
             isRequired: true,
         },
+        subTitle: {
+            type: Text,
+        },
         image: {
             type: CloudinaryImage,
             adapter: cloudinaryFileAdapter,
@@ -290,6 +297,9 @@ keystone.createList('Entry', {
         content: {
             type: Text,
             isRequired: true,
+        },
+        summary: {
+            type: Text,
         },
         url: {
             type: Url,
