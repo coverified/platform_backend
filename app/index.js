@@ -87,6 +87,12 @@ keystone.createList('Url', {
             type: Url,
             isRequired: true,
         },
+        source: {
+            type: Relationship,
+            ref: 'Source',
+            many: false,
+            isRequired: true,
+        },
     },
 });
 
