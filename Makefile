@@ -94,10 +94,10 @@ init-db: prepare-db
 	docker-compose exec app yarn create-tables
 
 backup-db:
-	docker-compose exec db pg_dump --clean --no-acl --format=plain --no-owner --username=$$DB_USER $$DB_NAME > dump.sql
+	docker-compose exec db pg_dump --clean --no-acl --format=plain --no-owner --username=$$DB_USER $$DB_NAME > dump_$$(date "+%Y.%m.%d-%H.%M.%S").sql
 
 restore-db:
-	cat dump.sql | docker-compose exec -T db psql --username=$$DB_USER $$DB_NAME
+	cat $(ARGS) | docker-compose exec -T db psql --username=$$DB_USER $$DB_NAME
 
 clear-db:
 	docker-compose exec db psql -U $$DB_USER -d $$DB_NAME -c "DROP SCHEMA public CASCADE;"

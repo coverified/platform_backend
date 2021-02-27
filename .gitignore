@@ -6,4 +6,4 @@
 /app/package-lock.json
 /app/schema.json
 
-/dump.sql
+/*.sql
