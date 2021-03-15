@@ -5,4 +5,4 @@
 !/app/node_modules/.gitkeep
 /app/package-lock.json
 
-/dump.sql
+/*.sql

@@ -25,6 +25,7 @@
     "@keystonejs/file-adapters": "^7.0.8",
     "@keystonejs/keystone": "^19.1.0",
     "@keystonejs/list-plugins": "^7.1.5",
+    "@sentry/node": "^6.2.2",
     "cross-env": "^7.0.3"
   },
   "devDependencies": {
