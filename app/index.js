@@ -20,6 +20,8 @@ const {AdminUIApp} = require('@keystonejs/app-admin-ui');
 const {atTracking} = require('@keystonejs/list-plugins');
 const {KnexAdapter: Adapter} = require('@keystonejs/adapter-knex');
 const initialiseData = require('./initial-data');
+const Sentry = require('@sentry/node');
+const Tracing = require('@sentry/tracing');
 
 const PROJECT_NAME = 'CoVerified/Backend';
 
@@ -31,6 +33,7 @@ const SECRETS = {
     },
     googleMapsKey: process.env.GOOGLE_MAPS_API_KEY || 'secret',
     cookieSecret: process.env.COOKIE_SECRET || 'secret',
+    sentryDsn: process.env.SENTRY_DSN || false,
 };
 
 console.log(`\n\n[ BEGIN: Secrets config ]\n\n`);
@@ -400,7 +403,6 @@ keystone.createList('User', {
     },
 });
 
-
 const authStrategy = keystone.createAuthStrategy({
     type: PasswordAuthStrategy,
     list: 'User',
@@ -416,6 +418,37 @@ module.exports = {
         }),
     ],
     configureExpress: app => {
-        app.set('trust proxy', true);
+        if (SECRETS.sentryDsn) {
+            Sentry.init({
+                dsn: SECRETS.sentryDsn,
+                integrations: [
+                    // enable HTTP calls tracing
+                    new Sentry.Integrations.Http({tracing: true}),
+                    // enable Express.js middleware tracing
+                    new Tracing.Integrations.Express({app}),
+                ],
+
+                // We recommend adjusting this value in production, or using tracesSampler
+                // for finer control
+                tracesSampleRate: 1.0,
+            });
+            // RequestHandler creates a separate execution context using domains, so that every
+            // transaction/span/breadcrumb is attached to its own Hub instance
+            app.use(Sentry.Handlers.requestHandler());
+            // TracingHandler creates a trace for every incoming request
+            app.use(Sentry.Handlers.tracingHandler());
+
+            app.set('trust proxy', true);
+
+            // The error handler must be before any other error middleware and after all controllers
+            app.use(Sentry.Handlers.errorHandler());
+            // Optional fallthrough error handler
+            app.use(function onError(err, req, res, next) {
+                // The error id is attached to `res.sentry` to be returned
+                // and optionally displayed to the user for support.
+                res.statusCode = 500;
+                res.end(res.sentry + '\n');
+            });
+        }
     },
 };
